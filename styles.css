@@ -609,7 +609,7 @@ footer p {
     }
 }
 
-/* Travel Maps */
+/* Travel Page */
 .flight-link-section {
     text-align: center;
     margin: 40px 0;
@@ -640,10 +640,8 @@ footer p {
 }
 
 .maps-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
     margin-top: 30px;
+    text-align: center;
 }
 
 .map-wrapper h3 {
@@ -652,44 +650,50 @@ footer p {
     color: #e2e8f0;
 }
 
-        .world-map-container,
-        .us-map-container {
-            height: 300px;
-            background-color: #1a1a1a;
-            border: 1px solid #4a5568;
-            border-radius: 8px;
-            overflow: hidden;
-            position: relative;
-        }
+.us-map-container {
+    height: 300px;
+    width: min(600px, 100%);
+    margin: 0 auto;
+    background-color: #1a1a1a;
+    border: 1px solid #4a5568;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+}
 
-        /* Leaflet map styling */
-        .world-map-container .leaflet-container,
-        .us-map-container .leaflet-container {
-            background-color: #1a365d;
-            border-radius: 8px;
-        }
+/* Leaflet map styling */
+.us-map-container .leaflet-container {
+    background-color: #1a365d;
+    border-radius: 8px;
+}
 
-        .world-map-container .leaflet-popup-content-wrapper,
-        .us-map-container .leaflet-popup-content-wrapper {
-            background-color: #2d3748;
-            color: #e2e8f0;
-            border: 1px solid #4a5568;
-        }
+.us-map-container .leaflet-popup-content-wrapper {
+    background-color: #2d3748;
+    color: #e2e8f0;
+    border: 1px solid #4a5568;
+}
 
-        .world-map-container .leaflet-popup-tip,
-        .us-map-container .leaflet-popup-tip {
-            background-color: #2d3748;
-        }
+.us-map-container .leaflet-popup-tip {
+    background-color: #2d3748;
+}
 
-        /* Responsive maps */
-        @media (max-width: 768px) {
-            .maps-container {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
+/* Responsive map styling */
+.responsive-map {
+    height: 300px;
+    width: min(600px, 100%);
+    margin: 0 auto;
+}
 
-            .world-map-container,
-            .us-map-container {
-                height: 250px;
-            }
-        }
+/* Maps container padding for mobile */
+@media (max-width: 768px) {
+    .maps-container {
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+
+    .responsive-map {
+        height: 250px;
+        width: 100%;
+        margin: 0;
+    }
+}
