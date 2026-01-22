@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel - Rial's Website</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+</head>
+<body>
+
+    <main>
+
+        <section class="content">
+            <div class="container">
+                <h2>Travel Adventures</h2>
+                <p>Exploring the world, one destination at a time.</p>
+
+                <div class="travel-grid">
+                    <div class="travel-card">
+                        <h3>Montana</h3>
+                        <p>My home state - mountains, lakes, and endless outdoor adventures.</p>
+                        <div class="travel-highlights">
+                            <span>Yellowstone</span>
+                            <span>Glacier National Park</span>
+                            <span>Big Sky Resort</span>
+                        </div>
+                    </div>
+
+                    <div class="travel-card">
+                        <h3>West Coast</h3>
+                        <p>Oregon and Washington adventures, from coast to mountains.</p>
+                        <div class="travel-highlights">
+                            <span>Crater Lake</span>
+                            <span>Columbia River Gorge</span>
+                            <span>Olympic National Park</span>
+                        </div>
+                    </div>
+
+                    <div class="travel-card">
+                        <h3>Mountain States</h3>
+                        <p>Colorado, Wyoming, Idaho - skiing, hiking, and scenic drives.</p>
+                        <div class="travel-highlights">
+                            <span>Rocky Mountains</span>
+                            <span>Jackson Hole</span>
+                            <span>Vail</span>
+                        </div>
+                    </div>
+
+                    <div class="travel-card">
+                        <h3>Future Destinations</h3>
+                        <p>Places on my bucket list for future adventures.</p>
+                        <div class="travel-highlights">
+                            <span>Alaska</span>
+                            <span>New Zealand</span>
+                            <span>Patagonia</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flight-link-section">
+                    <h2>Flight Tracking</h2>
+                    <p>View my flight history and current flights on FlightRadar24</p>
+                    <a href="https://my.flightradar24.com/pocodudeface" target="_blank" class="btn flight-link-btn">
+                        View My FlightRadar24 Map
+                    </a>
+                </div>
+
+                <div class="travel-maps-section">
+                    <h2>Places I've Visited</h2>
+                    <p>US states I've explored</p>
+
+                    <div class="maps-container">
+                        <div class="map-wrapper">
+                            <h3>US States Visited</h3>
+                            <div id="us-map" class="us-map-container"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="travel-content">
+                    <h2>Travel Philosophy</h2>
+                    <p>Travel is about experiencing new cultures, challenging myself physically and mentally, and creating lasting memories. I believe in sustainable travel and immersing myself in local experiences.</p>
+
+                    <h3>Favorite Activities</h3>
+                    <ul>
+                        <li>Hiking and backpacking in national parks</li>
+                        <li>Skiing and snowboarding in winter resorts</li>
+                        <li>Road trips and scenic drives</li>
+                        <li>Photography of natural landscapes</li>
+                        <li>Local food and cultural experiences</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+
+    <!-- Travel Maps Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize maps after navigation loads
+            setTimeout(function() {
+                initTravelMaps();
+            }, 100);
+        });
+
+        function initTravelMaps() {
+            console.log('Initializing travel maps...');
+
+            // US States I've visited (using state names)
+            const visitedStates = [
+                'Montana', 'Washington', 'California', 'Colorado', 'Wyoming',
+                'Idaho', 'Oregon', 'Utah', 'Nevada', 'Massachusetts',
+                'New York', 'Illinois', 'New Jersey'
+            ];
+
+            // createWorldMap(visitedCountries); // Temporarily disabled
+            createUSMap(visitedStates);
+
+            console.log('Travel maps initialized successfully');
+        }
+
+
+        function createUSMap(visitedStates) {
+            const usMapContainer = document.getElementById('us-map');
+
+            // Create Leaflet map centered on US
+            const map = L.map(usMapContainer, {
+                zoomControl: false,
+                attributionControl: false
+            }).setView([39.8283, -98.5795], 4);
+
+            // Add dark tile layer
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+                attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a>',
+                subdomains: 'abcd',
+                maxZoom: 20
+            }).addTo(map);
+
+            // Load US states GeoJSON
+            fetch('https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json')
+                .then(response => response.json())
+                .then(data => {
+                    L.geoJSON(data, {
+                        style: function(feature) {
+                            const stateName = feature.properties.name;
+                            const isVisited = visitedStates.includes(stateName);
+
+                            return {
+                                fillColor: isVisited ? '#63b3ed' : '#4a5568',
+                                weight: 1,
+                                opacity: 1,
+                                color: '#2d3748',
+                                fillOpacity: isVisited ? 0.8 : 0.4
+                            };
+                        },
+                        onEachFeature: function(feature, layer) {
+                            const stateName = feature.properties.name;
+                            const isVisited = visitedStates.includes(stateName);
+
+                            layer.bindTooltip(`${stateName}${isVisited ? ' ✓' : ''}`, {
+                                permanent: false,
+                                direction: 'auto'
+                            });
+
+                            layer.on({
+                                mouseover: function(e) {
+                                    const layer = e.target;
+                                    layer.setStyle({
+                                        fillColor: isVisited ? '#4299e1' : '#718096',
+                                        weight: 2,
+                                        fillOpacity: isVisited ? 0.9 : 0.6
+                                    });
+                                },
+                                mouseout: function(e) {
+                                    const layer = e.target;
+                                    layer.setStyle({
+                                        fillColor: isVisited ? '#63b3ed' : '#4a5568',
+                                        weight: 1,
+                                        fillOpacity: isVisited ? 0.8 : 0.4
+                                    });
+                                }
+                            });
+                        }
+                    }).addTo(map);
+                })
+                .catch(error => {
+                    console.error('Error loading US states:', error);
+                    // Fallback: show error message
+                    usMapContainer.innerHTML = '<div style="padding: 20px; text-align: center; color: #e53e3e;">Unable to load US map</div>';
+                });
+        }
+    </script>
+
+    <style>
+        .flight-link-section {
+            text-align: center;
+            margin: 40px 0;
+            padding: 30px;
+            background-color: #2d3748;
+            border-radius: 8px;
+            border: 1px solid #4a5568;
+        }
+
+        .flight-link-btn {
+            display: inline-block;
+            background-color: #63b3ed;
+            color: #1a1a1a;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .flight-link-btn:hover {
+            background-color: #4299e1;
+        }
+
+        .travel-maps-section {
+            margin: 50px 0;
+        }
+
+        .maps-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .map-wrapper h3 {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #e2e8f0;
+        }
+
+        .us-map-container {
+            height: 300px;
+            width: 600px;
+            background-color: #1a1a1a;
+            border: 1px solid #4a5568;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Leaflet map styling */
+        .us-map-container .leaflet-container {
+            background-color: #1a365d;
+            border-radius: 8px;
+        }
+
+        .us-map-container .leaflet-popup-content-wrapper {
+            background-color: #2d3748;
+            color: #e2e8f0;
+            border: 1px solid #4a5568;
+        }
+
+        .us-map-container .leaflet-popup-tip {
+            background-color: #2d3748;
+        }
+
+        /* Responsive maps */
+        @media (max-width: 768px) {
+            .us-map-container {
+                height: 250px;
+                width: 100%;
+            }
+        }
+    </style>
+</body>
+</html>
