@@ -12,6 +12,22 @@ body {
     background-color: #1a1a1a;
 }
 
+/* Global Link Styles */
+a {
+    color: #00FF00;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #00FF00;
+    text-decoration: underline;
+}
+
+a:visited {
+    color: #00FF00;
+}
+
 .container {
     max-width: 1200px;
     margin: 0 auto;
