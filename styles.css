@@ -53,11 +53,6 @@ header {
     height: 70px;
 }
 
-.nav-brand h1 {
-    color: #e2e8f0;
-    font-size: 1.5rem;
-    font-weight: 600;
-}
 
 .nav-menu {
     display: flex;
@@ -102,26 +97,6 @@ header {
     transition: 0.3s;
 }
 
-/* Hero Section */
-.hero {
-    background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
-    color: #e2e8f0;
-    padding: 80px 0;
-    text-align: center;
-}
-
-.hero-content h2 {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-    font-weight: 700;
-}
-
-.hero-content p {
-    font-size: 1.2rem;
-    opacity: 0.9;
-    max-width: 600px;
-    margin: 0 auto;
-}
 
 /* Content Section */
 .content {
@@ -142,55 +117,6 @@ header {
     line-height: 1.8;
 }
 
-/* Cards */
-.cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-    margin-top: 40px;
-}
-
-.card {
-    background-color: #2d3748;
-    padding: 30px;
-    border-radius: 8px;
-    text-align: center;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: 1px solid #4a5568;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
-    border-color: #00FF00;
-}
-
-.card h3 {
-    color: #e2e8f0;
-    margin-bottom: 15px;
-    font-size: 1.3rem;
-}
-
-.card p {
-    color: #a0aec0;
-    margin-bottom: 20px;
-}
-
-.btn {
-    display: inline-block;
-    background-color: #00FF00;
-    color: #1a1a1a;
-    padding: 12px 24px;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-    font-weight: 500;
-}
-
-.btn:hover {
-    background-color: #00FF00;
-}
 
 /* Projects Page */
 .projects-grid {
@@ -239,137 +165,8 @@ header {
     line-height: 1.7;
 }
 
-.tech-stack {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
 
-.tech-stack span {
-    background-color: #4a5568;
-    color: #e2e8f0;
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 500;
-    border: 1px solid #718096;
-}
 
-/* Gaming Page */
-.games-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
-}
-
-.game-card {
-    background-color: #2d3748;
-    padding: 25px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease;
-    border: 1px solid #4a5568;
-}
-
-.game-card:hover {
-    transform: translateY(-5px);
-    border-color: #00FF00;
-}
-
-.game-card h3 {
-    color: #e2e8f0;
-    margin-bottom: 15px;
-    font-size: 1.3rem;
-}
-
-.game-card p {
-    color: #a0aec0;
-    margin-bottom: 10px;
-    line-height: 1.6;
-}
-
-.game-description {
-    font-style: italic;
-    color: #cbd5e0;
-    font-size: 0.9rem;
-}
-
-/* Travel Page */
-.travel-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-    margin-bottom: 50px;
-}
-
-.travel-card {
-    background-color: #2d3748;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease;
-    border: 1px solid #4a5568;
-}
-
-.travel-card:hover {
-    transform: translateY(-5px);
-    border-color: #00FF00;
-}
-
-.travel-card h3 {
-    color: #e2e8f0;
-    margin-bottom: 15px;
-    font-size: 1.4rem;
-}
-
-.travel-card p {
-    color: #a0aec0;
-    margin-bottom: 20px;
-    line-height: 1.7;
-}
-
-.travel-highlights {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.travel-highlights span {
-    background-color: #4a5568;
-    color: #e2e8f0;
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 500;
-    border: 1px solid #718096;
-}
-
-.travel-content {
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.travel-content h2 {
-    text-align: left;
-    margin-bottom: 25px;
-    color: #e2e8f0;
-}
-
-.travel-content h3 {
-    color: #e2e8f0;
-    margin: 30px 0 15px 0;
-    font-size: 1.3rem;
-}
-
-.travel-content ul {
-    margin-left: 20px;
-    margin-bottom: 25px;
-}
-
-.travel-content li {
-    margin-bottom: 8px;
-    color: #a0aec0;
-}
 
 /* Running Page */
 .running-stats {
@@ -407,32 +204,6 @@ header {
     margin: 0;
 }
 
-.running-content {
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.running-content h2 {
-    text-align: left;
-    margin-bottom: 25px;
-    color: #e2e8f0;
-}
-
-.running-content h3 {
-    color: #e2e8f0;
-    margin: 30px 0 15px 0;
-    font-size: 1.3rem;
-}
-
-.running-content ul {
-    margin-left: 20px;
-    margin-bottom: 25px;
-}
-
-.running-content li {
-    margin-bottom: 8px;
-    color: #a0aec0;
-}
 
 /* Running Records Table */
 .running-records {
@@ -586,20 +357,14 @@ footer p {
         padding: 0 15px;
     }
 
-    .cards,
     .projects-grid,
-    .games-grid,
-    .running-stats,
-    .travel-grid {
+    .running-stats {
         grid-template-columns: 1fr;
         gap: 20px;
     }
 
-    .card,
     .project-card,
-    .game-card,
-    .stat-card,
-    .travel-card {
+    .stat-card {
         padding: 20px;
     }
 
@@ -624,16 +389,11 @@ footer p {
 }
 
 @media (max-width: 480px) {
-    .hero-content h2 {
-        font-size: 1.8rem;
-    }
-
     .content h2 {
         font-size: 1.6rem;
     }
 
-    .project-card h3,
-    .game-card h3 {
+    .project-card h3 {
         font-size: 1.2rem;
     }
 
@@ -705,31 +465,6 @@ footer p {
     opacity: 0.7;
 }
 
-/* Travel Page */
-.flight-link-section {
-    text-align: center;
-    margin: 40px 0;
-    padding: 30px;
-    background-color: #2d3748;
-    border-radius: 8px;
-    border: 1px solid #4a5568;
-}
-
-.flight-link-btn {
-    display: inline-block;
-    background-color: #63b3ed;
-    color: #1a1a1a;
-    padding: 15px 30px;
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 1.1rem;
-    transition: background-color 0.3s ease;
-}
-
-.flight-link-btn:hover {
-    background-color: #4299e1;
-}
 
 .travel-maps-section {
     margin: 50px 0;
