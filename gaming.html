@@ -15,7 +15,20 @@
                 <h2>Single Player Games</h2>
                 <p>I like these a lot. My favorites are Nintendo series like Zelda and Mario but I like lots of others too.</p>
                 <p>I also really like to beat games. I have a large backlog but I like to beat all the games I play and I track my progress towards completing my backlog on <a href="https://backloggery.com/Pocodudeface">Backloggery</a>.</p>
-                <p>I also like to make a little infographic of the games I play and beat every year. Check it out:</p> 
+                <p>I also like to make a little infographic of the games I play and beat every year. Check it out:</p>
+                <div class="game-recap-container">
+                    <div class="year-buttons">
+                        <button class="year-btn active" data-year="2025">2025</button>
+                        <button class="year-btn" data-year="2024">2024</button>
+                        <button class="year-btn" data-year="2023">2023</button>
+                        <button class="year-btn" data-year="2022">2022</button>
+                        <button class="year-btn" data-year="2021">2021</button>
+                        <button class="year-btn" data-year="2020">2020</button>
+                    </div>
+                    <div class="recap-image-container">
+                        <img id="recap-image" src="/images/game-recap-2025.png" alt="2025 Game Recap" class="recap-image">
+                    </div>
+                </div>
                 <h2>Competitive Games</h2>
                 <p>I'm not very good at competitive games. But I do complete in Super Smash Bros. Melee. I play Dr. Mario and started entering tournaments in college in 2016. You can see most of the tournaments I've entered on <a href="https://www.start.gg/user/cc39f15d/results">Smash.gg</a>. You can see some of my vods in this <a href="https://www.youtube.com/playlist?list=PLPTpsI0lBSI63oM0l2_Gqe7WE59CXHHdP">playlist</a>.</p>
                 <p>I'm also pretty good at Mario Kart.</p>
@@ -24,5 +37,36 @@
     </main>
 
     <script src="script.js"></script>
+
+    <!-- Game Recap Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const yearButtons = document.querySelectorAll('.year-btn');
+            const recapImage = document.getElementById('recap-image');
+
+            yearButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    yearButtons.forEach(btn => btn.classList.remove('active'));
+
+                    // Add active class to clicked button
+                    this.classList.add('active');
+
+                    // Get the year from the button's data attribute
+                    const year = this.getAttribute('data-year');
+
+                    // Update the image source
+                    recapImage.src = `/images/game-recap-${year}.png`;
+                    recapImage.alt = `${year} Game Recap`;
+
+                    // Add fade effect
+                    recapImage.classList.add('fade');
+                    setTimeout(() => {
+                        recapImage.classList.remove('fade');
+                    }, 150);
+                });
+            });
+        });
+    </script>
 </body>
 </html>

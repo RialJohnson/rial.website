@@ -612,6 +612,15 @@ footer p {
     .project-card h3 {
         font-size: 1.3rem;
     }
+
+    .year-buttons {
+        gap: 8px;
+    }
+
+    .year-btn {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -637,6 +646,63 @@ footer p {
     .stat-number {
         font-size: 2rem;
     }
+}
+
+/* Gaming Page */
+.game-recap-container {
+    margin: 30px 0;
+    text-align: center;
+}
+
+.year-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.year-btn {
+    background-color: #4a5568;
+    color: #e2e8f0;
+    border: 1px solid #718096;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.year-btn:hover {
+    background-color: #718096;
+    border-color: #00FF00;
+}
+
+.year-btn.active {
+    background-color: #00FF00;
+    color: #1a1a1a;
+    border-color: #00FF00;
+}
+
+.recap-image-container {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    border: 1px solid #4a5568;
+    display: inline-block;
+    max-width: 100%;
+}
+
+.recap-image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    transition: opacity 0.3s ease;
+}
+
+.recap-image.fade {
+    opacity: 0.7;
 }
 
 /* Travel Page */
