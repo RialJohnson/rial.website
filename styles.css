@@ -217,6 +217,20 @@ header {
     color: #e2e8f0;
     margin-bottom: 15px;
     font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.project-card h3 .title-text {
+    flex: 1;
+}
+
+.project-logo {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    margin-left: 12px;
 }
 
 .project-card p {
@@ -588,6 +602,16 @@ footer p {
     .travel-card {
         padding: 20px;
     }
+
+    .project-logo {
+        width: 28px;
+        height: 28px;
+        margin-left: 10px;
+    }
+
+    .project-card h3 {
+        font-size: 1.3rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -602,6 +626,12 @@ footer p {
     .project-card h3,
     .game-card h3 {
         font-size: 1.2rem;
+    }
+
+    .project-logo {
+        width: 24px;
+        height: 24px;
+        margin-left: 8px;
     }
 
     .stat-number {
