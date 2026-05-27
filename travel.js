@@ -16,7 +16,7 @@ function initTravelMaps() {
         'New York', 'Illinois', 'New Jersey', 'North Dakota', 'South Dakota',
         'Minnesota', 'Wisconsin', 'Iowa', 'Missouri', 'Michigan', 'Indiana', 'Ohio',
         'Pennsylvania','New Hampshire', 'Maine', 'Vermont', 'Connecticut',
-        'Rhode Island', 'Delaware', 'Arizona'
+        'Rhode Island', 'Delaware', 'Arizona', 'Nebraska'
     ];
 
     // createWorldMap(visitedCountries); // Temporarily disabled
