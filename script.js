@@ -1,7 +1,7 @@
 // Load Navigation
 document.addEventListener('DOMContentLoaded', function() {
     // Load navigation from external file
-    fetch('nav.html')
+    fetch('/nav.html')
         .then(response => response.text())
         .then(data => {
             document.body.insertAdjacentHTML('afterbegin', data);
@@ -17,12 +17,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Set active navigation item based on current page
 function setActiveNavItem() {
-    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    function normalizePath(path) {
+        if (!path) return '/';
+        let normalized = path;
+        normalized = normalized.replace(/\/index\.html$/i, '/');
+        normalized = normalized.replace(/\/{2,}/g, '/');
+        if (normalized.length > 1 && normalized.endsWith('/')) {
+            normalized = normalized.slice(0, -1);
+        }
+        return normalized || '/';
+    }
+
+    const currentPath = normalizePath(window.location.pathname);
     const navLinks = document.querySelectorAll('.nav-menu a');
 
     navLinks.forEach(link => {
-        const linkHref = link.getAttribute('href');
-        if (linkHref === currentPage) {
+        const href = link.getAttribute('href');
+        const linkPath = normalizePath(new URL(href, window.location.origin).pathname);
+        const isExactMatch = linkPath === currentPath;
+        const isSectionMatch = linkPath !== '/' && currentPath.startsWith(linkPath + '/');
+        if (isExactMatch || isSectionMatch) {
             link.classList.add('active');
         }
     });
