@@ -311,6 +311,19 @@ header {
     margin-top: 20px;
 }
 
+.tool-toggle {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+}
+
+.tool-toggle-button.active {
+    background-color: #00FF00;
+    color: #1a1a1a;
+    border-color: #00FF00;
+}
+
 .tool-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
