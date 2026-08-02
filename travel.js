@@ -33,6 +33,15 @@ function initTravelMaps() {
     createUSMap(visitedStates);
     createWorldMap(visitedCountries);
 
+    const statesCount = document.getElementById('states-count');
+    const countriesCount = document.getElementById('countries-count');
+    if (statesCount) {
+        statesCount.textContent = `${visitedStates.length}/50`;
+    }
+    if (countriesCount) {
+        countriesCount.textContent = `${visitedCountries.length}/195`;
+    }
+
     console.log('Travel maps initialized successfully');
 }
 
