@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Running Pace Calculator - rial.website</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <main>
+        <section class="content">
+            <div class="container">
+                <h2>Running Pace Calculator</h2>
+                <p><a href="/tools/">Back to all tools</a></p>
+
+                <div class="tool-card">
+                    <h3>Marathon Training Pace Calculator</h3>
+                    <p>Enter either a goal time or goal pace and distance to calculate equivalent results and suggested training paces.</p>
+
+                    <form id="pace-form" class="tool-form" novalidate>
+                        <div class="tool-toggle" role="group" aria-label="Calculator mode">
+                            <button type="button" class="tool-button tool-toggle-button active" data-mode="by_time" aria-pressed="true">
+                                Time → Pace
+                            </button>
+                            <button type="button" class="tool-button tool-toggle-button tool-button--secondary" data-mode="by_pace" aria-pressed="false">
+                                Pace → Time
+                            </button>
+                        </div>
+
+                        <div class="tool-grid">
+                            <div class="tool-field">
+                                <label for="distance">Distance</label>
+                                <select id="distance" name="distance">
+                                    <option value="marathon" selected>Marathon (26.2 mi / 42.195 km)</option>
+                                    <option value="half_marathon">Half Marathon (13.1 mi / 21.0975 km)</option>
+                                    <option value="10k">10K (10 km)</option>
+                                    <option value="5k">5K (5 km)</option>
+                                    <option value="custom">Custom</option>
+                                </select>
+                            </div>
+
+                            <div id="custom-distance-fields" class="tool-field tool-field--hidden" aria-hidden="true">
+                                <label for="customDistance">Custom distance</label>
+                                <div class="tool-inline">
+                                    <input id="customDistance" name="customDistance" inputmode="decimal" placeholder="e.g. 12.0" />
+                                    <select id="customUnit" name="customUnit">
+                                        <option value="mi" selected>miles</option>
+                                        <option value="km">km</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div id="goal-time-field" class="tool-field">
+                                <label>Goal time</label>
+                                <div class="tool-inline">
+                                    <input id="timeHours" name="timeHours" inputmode="numeric" placeholder="hh" />
+                                    <input id="timeMinutes" name="timeMinutes" inputmode="numeric" placeholder="mm" />
+                                    <input id="timeSeconds" name="timeSeconds" inputmode="numeric" placeholder="ss" />
+                                </div>
+                            </div>
+
+                            <div id="goal-pace-field" class="tool-field tool-field--hidden" aria-hidden="true">
+                                <label>Goal pace</label>
+                                <div class="tool-inline">
+                                    <input id="paceMinutes" name="paceMinutes" inputmode="numeric" placeholder="mm" />
+                                    <input id="paceSeconds" name="paceSeconds" inputmode="numeric" placeholder="ss" />
+                                </div>
+                            </div>
+
+                            <div class="tool-field">
+                                <label for="paceUnit">Pace unit</label>
+                                <select id="paceUnit" name="paceUnit">
+                                    <option value="min_per_mile" selected>min / mile</option>
+                                    <option value="min_per_km">min / km</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="tool-actions">
+                            <button type="submit" class="tool-button">Calculate</button>
+                            <button type="button" id="pace-reset" class="tool-button tool-button--secondary">Reset</button>
+                        </div>
+
+                        <p id="pace-error" class="tool-error" role="alert" aria-live="polite"></p>
+                    </form>
+
+                    <div id="pace-results" class="tool-results tool-field--hidden" aria-hidden="true">
+                        <h4>Results</h4>
+                        <div class="tool-results-grid">
+                            <div class="tool-result">
+                                <div class="tool-result__label">Target pace</div>
+                                <div id="target-pace" class="tool-result__value">—</div>
+                            </div>
+                            <div class="tool-result">
+                                <div class="tool-result__label">Equivalent pace</div>
+                                <div id="equiv-pace" class="tool-result__value">—</div>
+                            </div>
+                            <div class="tool-result">
+                                <div class="tool-result__label">Race time</div>
+                                <div id="race-time" class="tool-result__value">—</div>
+                            </div>
+                        </div>
+
+                        <h4>Suggested training paces</h4>
+                        <div class="tool-results-grid">
+                            <div class="tool-result">
+                                <div class="tool-result__label">Easy / Recovery</div>
+                                <div id="easy-pace" class="tool-result__value">—</div>
+                            </div>
+                            <div class="tool-result">
+                                <div class="tool-result__label">Long run</div>
+                                <div id="long-pace" class="tool-result__value">—</div>
+                            </div>
+                            <div class="tool-result">
+                                <div class="tool-result__label">Marathon pace</div>
+                                <div id="mp-pace" class="tool-result__value">—</div>
+                            </div>
+                            <div class="tool-result">
+                                <div class="tool-result__label">Tempo (threshold)</div>
+                                <div id="tempo-pace" class="tool-result__value">—</div>
+                            </div>
+                            <div class="tool-result">
+                                <div class="tool-result__label">Intervals (5K-ish)</div>
+                                <div id="interval-pace" class="tool-result__value">—</div>
+                            </div>
+                        </div>
+
+                        <p class="tool-note">
+                            These training paces are rough guidelines derived from your goal pace (not a full training plan).
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="/script.js"></script>
+    <script src="/tools/running-calculator/running-calculator.js"></script>
+</body>
+</html>
