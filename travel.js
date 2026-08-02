@@ -19,95 +19,169 @@ function initTravelMaps() {
         'Rhode Island', 'Delaware', 'Arizona', 'Nebraska'
     ];
 
-    // createWorldMap(visitedCountries); // Temporarily disabled
+    // Countries I've visited (names must match GeoJSON `name` property)
+    const visitedCountries = [
+        'United States',
+        'Canada',
+        'Japan',
+        'France',
+        'Italy',
+        'United Kingdom',
+        'Ireland',
+    ];
+
     createUSMap(visitedStates);
+    createWorldMap(visitedCountries);
+
+    const statesCount = document.getElementById('states-count');
+    const countriesCount = document.getElementById('countries-count');
+    if (statesCount) {
+        statesCount.textContent = `${visitedStates.length}/50`;
+    }
+    if (countriesCount) {
+        countriesCount.textContent = `${visitedCountries.length}/195`;
+    }
 
     console.log('Travel maps initialized successfully');
 }
 
+function getRegionStyle(isVisited) {
+    return {
+        fillColor: isVisited ? '#63b3ed' : '#4a5568',
+        weight: 1,
+        opacity: 1,
+        color: '#2d3748',
+        fillOpacity: isVisited ? 0.8 : 0.4
+    };
+}
 
-function createUSMap(visitedStates) {
-    const usMapContainer = document.getElementById('us-map');
+function getRegionHoverStyle(isVisited) {
+    return {
+        fillColor: isVisited ? '#4299e1' : '#718096',
+        weight: 2,
+        fillOpacity: isVisited ? 0.9 : 0.6
+    };
+}
 
-    // Add responsive class for styling
-    usMapContainer.classList.add('responsive-map');
+function bindRegionInteractions(layer, name, isVisited) {
+    layer.bindTooltip(`${name}${isVisited ? ' ✓' : ''}`, {
+        permanent: false,
+        direction: 'auto'
+    });
 
-    // Create Leaflet map centered on US
-    const map = L.map(usMapContainer, {
+    layer.on({
+        mouseover: function(e) {
+            e.target.setStyle(getRegionHoverStyle(isVisited));
+        },
+        mouseout: function(e) {
+            e.target.setStyle(getRegionStyle(isVisited));
+        }
+    });
+}
+
+function setupMapResponsiveness(map, container) {
+    window.addEventListener('resize', function() {
+        setTimeout(function() {
+            map.invalidateSize();
+        }, 100);
+    });
+
+    setTimeout(function() {
+        map.invalidateSize();
+        console.log('Map container size:', container.offsetWidth, 'x', container.offsetHeight);
+    }, 500);
+}
+
+// Keep maps on a single world copy (no infinite horizontal wrap)
+const WORLD_BOUNDS = L.latLngBounds(L.latLng(-85, -180), L.latLng(85, 180));
+
+// All 50 states as drawn in the US GeoJSON (Alaska extends past -180)
+const US_BOUNDS = L.latLngBounds(L.latLng(17.5, -189.5), L.latLng(71.8, -65));
+
+function createBaseMap(container, center, zoom, options = {}) {
+    const maxBounds = options.maxBounds || WORLD_BOUNDS;
+
+    const map = L.map(container, {
         zoomControl: false,
-        attributionControl: false
-    }).setView([39.8283, -98.5795], 4);
+        attributionControl: false,
+        worldCopyJump: false,
+        maxBounds: maxBounds,
+        maxBoundsViscosity: 1.0,
+        minZoom: options.minZoom
+    }).setView(center, zoom);
 
-    // Add dark tile layer
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
         attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a>',
         subdomains: 'abcd',
-        maxZoom: 20
+        maxZoom: 20,
+        noWrap: true,
+        bounds: maxBounds
     }).addTo(map);
 
-    // Load US states GeoJSON
+    return map;
+}
+
+function createUSMap(visitedStates) {
+    const usMapContainer = document.getElementById('us-map');
+    if (!usMapContainer) return;
+
+    usMapContainer.classList.add('responsive-map');
+
+    const map = createBaseMap(usMapContainer, [39.8283, -98.5795], 4, {
+        minZoom: 3,
+        maxBounds: US_BOUNDS
+    });
+
     fetch('https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json')
         .then(response => response.json())
         .then(data => {
             L.geoJSON(data, {
                 style: function(feature) {
-                    const stateName = feature.properties.name;
-                    const isVisited = visitedStates.includes(stateName);
-
-                    return {
-                        fillColor: isVisited ? '#63b3ed' : '#4a5568',
-                        weight: 1,
-                        opacity: 1,
-                        color: '#2d3748',
-                        fillOpacity: isVisited ? 0.8 : 0.4
-                    };
+                    const isVisited = visitedStates.includes(feature.properties.name);
+                    return getRegionStyle(isVisited);
                 },
                 onEachFeature: function(feature, layer) {
                     const stateName = feature.properties.name;
                     const isVisited = visitedStates.includes(stateName);
-
-                    layer.bindTooltip(`${stateName}${isVisited ? ' ✓' : ''}`, {
-                        permanent: false,
-                        direction: 'auto'
-                    });
-
-                    layer.on({
-                        mouseover: function(e) {
-                            const layer = e.target;
-                            layer.setStyle({
-                                fillColor: isVisited ? '#4299e1' : '#718096',
-                                weight: 2,
-                                fillOpacity: isVisited ? 0.9 : 0.6
-                            });
-                        },
-                        mouseout: function(e) {
-                            const layer = e.target;
-                            layer.setStyle({
-                                fillColor: isVisited ? '#63b3ed' : '#4a5568',
-                                weight: 1,
-                                fillOpacity: isVisited ? 0.8 : 0.4
-                            });
-                        }
-                    });
+                    bindRegionInteractions(layer, stateName, isVisited);
                 }
             }).addTo(map);
 
-            // Handle responsive resizing
-            window.addEventListener('resize', function() {
-                setTimeout(function() {
-                    map.invalidateSize();
-                }, 100);
-            });
-
-            // Force initial sizing after map loads
-            setTimeout(function() {
-                map.invalidateSize();
-                console.log('Map container size:', usMapContainer.offsetWidth, 'x', usMapContainer.offsetHeight);
-            }, 500);
+            setupMapResponsiveness(map, usMapContainer);
         })
         .catch(error => {
             console.error('Error loading US states:', error);
-            // Fallback: show error message
             usMapContainer.innerHTML = '<div style="padding: 20px; text-align: center; color: #e53e3e;">Unable to load US map</div>';
+        });
+}
+
+function createWorldMap(visitedCountries) {
+    const worldMapContainer = document.getElementById('world-map');
+    if (!worldMapContainer) return;
+
+    worldMapContainer.classList.add('responsive-map');
+
+    const map = createBaseMap(worldMapContainer, [20, 0], 1, { minZoom: 1 });
+
+    fetch('https://raw.githubusercontent.com/datasets/geo-boundaries-world-110m/master/countries.geojson')
+        .then(response => response.json())
+        .then(data => {
+            L.geoJSON(data, {
+                style: function(feature) {
+                    const isVisited = visitedCountries.includes(feature.properties.name);
+                    return getRegionStyle(isVisited);
+                },
+                onEachFeature: function(feature, layer) {
+                    const countryName = feature.properties.name;
+                    const isVisited = visitedCountries.includes(countryName);
+                    bindRegionInteractions(layer, countryName, isVisited);
+                }
+            }).addTo(map);
+
+            setupMapResponsiveness(map, worldMapContainer);
+        })
+        .catch(error => {
+            console.error('Error loading countries:', error);
+            worldMapContainer.innerHTML = '<div style="padding: 20px; text-align: center; color: #e53e3e;">Unable to load world map</div>';
         });
 }

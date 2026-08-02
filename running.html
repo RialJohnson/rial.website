@@ -42,7 +42,7 @@
                 <div class="running-stats">
                     <div class="stat-card">
                         <h3>Events</h3>
-                        <div class="stat-number">15</div>
+                        <div class="stat-number" id="events-count"></div>
                     </div>
                     <div class="stat-card">
                         <h3>States</h3>
@@ -181,5 +181,14 @@
     </main>
 
     <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const eventsCount = document.getElementById('events-count');
+            const raceRows = document.querySelectorAll('.records-table tbody tr');
+            if (eventsCount) {
+                eventsCount.textContent = raceRows.length;
+            }
+        });
+    </script>
 </body>
 </html>
