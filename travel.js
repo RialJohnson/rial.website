@@ -25,7 +25,9 @@ function initTravelMaps() {
         'Canada',
         'Japan',
         'France',
-        'Italy'
+        'Italy',
+        'United Kingdom',
+        'Ireland',
     ];
 
     createUSMap(visitedStates);
@@ -81,22 +83,45 @@ function setupMapResponsiveness(map, container) {
     }, 500);
 }
 
+// Keep maps on a single world copy (no infinite horizontal wrap)
+const WORLD_BOUNDS = L.latLngBounds(L.latLng(-85, -180), L.latLng(85, 180));
+
+// All 50 states as drawn in the US GeoJSON (Alaska extends past -180)
+const US_BOUNDS = L.latLngBounds(L.latLng(17.5, -189.5), L.latLng(71.8, -65));
+
+function createBaseMap(container, center, zoom, options = {}) {
+    const maxBounds = options.maxBounds || WORLD_BOUNDS;
+
+    const map = L.map(container, {
+        zoomControl: false,
+        attributionControl: false,
+        worldCopyJump: false,
+        maxBounds: maxBounds,
+        maxBoundsViscosity: 1.0,
+        minZoom: options.minZoom
+    }).setView(center, zoom);
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a>',
+        subdomains: 'abcd',
+        maxZoom: 20,
+        noWrap: true,
+        bounds: maxBounds
+    }).addTo(map);
+
+    return map;
+}
+
 function createUSMap(visitedStates) {
     const usMapContainer = document.getElementById('us-map');
     if (!usMapContainer) return;
 
     usMapContainer.classList.add('responsive-map');
 
-    const map = L.map(usMapContainer, {
-        zoomControl: false,
-        attributionControl: false
-    }).setView([39.8283, -98.5795], 4);
-
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a>',
-        subdomains: 'abcd',
-        maxZoom: 20
-    }).addTo(map);
+    const map = createBaseMap(usMapContainer, [39.8283, -98.5795], 4, {
+        minZoom: 3,
+        maxBounds: US_BOUNDS
+    });
 
     fetch('https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json')
         .then(response => response.json())
@@ -127,17 +152,7 @@ function createWorldMap(visitedCountries) {
 
     worldMapContainer.classList.add('responsive-map');
 
-    const map = L.map(worldMapContainer, {
-        zoomControl: false,
-        attributionControl: false,
-        worldCopyJump: true
-    }).setView([20, 0], 1);
-
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a>',
-        subdomains: 'abcd',
-        maxZoom: 20
-    }).addTo(map);
+    const map = createBaseMap(worldMapContainer, [20, 0], 1, { minZoom: 1 });
 
     fetch('https://raw.githubusercontent.com/datasets/geo-boundaries-world-110m/master/countries.geojson')
         .then(response => response.json())
