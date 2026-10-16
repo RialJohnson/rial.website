@@ -16,7 +16,7 @@ function initTravelMaps() {
         'New York', 'Illinois', 'New Jersey', 'North Dakota', 'South Dakota',
         'Minnesota', 'Wisconsin', 'Iowa', 'Missouri', 'Michigan', 'Indiana', 'Ohio',
         'Pennsylvania','New Hampshire', 'Maine', 'Vermont', 'Connecticut',
-        'Rhode Island', 'Delaware', 'Arizona', 'Nebraska'
+        'Rhode Island', 'Delaware', 'Arizona', 'Nebraska', 'North Carolina'
     ];
 
     // Countries I've visited (names must match GeoJSON `name` property)
