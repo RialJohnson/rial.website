@@ -16,7 +16,7 @@ function initTravelMaps() {
         'New York', 'Illinois', 'New Jersey', 'North Dakota', 'South Dakota',
         'Minnesota', 'Wisconsin', 'Iowa', 'Missouri', 'Michigan', 'Indiana', 'Ohio',
         'Pennsylvania','New Hampshire', 'Maine', 'Vermont', 'Connecticut',
-        'Rhode Island', 'Delaware', 'Arizona', 'Nebraska'
+        'Rhode Island', 'Delaware', 'Arizona', 'Nebraska', 'North Carolina'
     ];
 
     // Countries I've visited (names must match GeoJSON `name` property)
@@ -110,7 +110,12 @@ function createBaseMap(container, center, zoom, options = {}) {
         minZoom: options.minZoom
     }).setView(center, zoom);
 
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    const cartoKey = window.CARTO_BASEMAP_KEY;
+    const cartoTiles = cartoKey
+        ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=' + encodeURIComponent(cartoKey)
+        : 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
+
+    L.tileLayer(cartoTiles, {
         attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a>',
         subdomains: 'abcd',
         maxZoom: 20,
